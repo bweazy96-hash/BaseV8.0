@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────────────────────────────────────
 //  BASE APEX V8.0  —  NETLIFY PRODUCTION BUILD
-//  Firebase Firestore live sync · All 10 tabs · Deploy ready
+//  Firebase Firestore live sync - All 10 tabs - Deploy ready
 //
 //  SETUP:
 //  1. npm install firebase
@@ -263,12 +263,12 @@ function CommandTab({deals,kpiVals,setKpiVals}){
   }
     setDoc(doc(db,"kpis","weekly"),{...kpiVals,[id]:next},{merge:true});
   return(
- LIVE - {deals.length} DEALS 
+ LIVE - {deals.length} DEALS - FIREBASE SYNC ACTIVE</div>
     <div style={{display:"flex",flexDirection:"column",gap:9}}>
       <div style={{background:`linear-gradient(135deg,${T.bg1},${T.bg3})`,border:`1px solid ${T.cyan}30`,borderRadius:10,padding:"14px 16px",position:"relative",overflow:"hidden"}}>
         <div style={{position:"absolute",inset:0,background:`radial-gradient(ellipse at 80% 50%,${T.cyan}08 0%,transparent 60%)`,pointerEvents:"none"}}/>
         <div style={{...TX.h1,fontSize:15,color:T.cyan,textShadow:`0 0 15px ${T.cyan}80`}}>APEX Wholesale Machine</div>
-        <div style={{...TX.body,marginTop:5}}>Find · Lock · Assign · Collect · Repeat</div>
+        <div style={{...TX.body,marginTop:5}}>Find - Lock - Assign - Collect - Repeat</div>
         <div style={{...TX.body,marginTop:4,color:T.greenL,fontWeight:800}}>
       </div>
       {followUp.length>0&&(
@@ -276,7 +276,7 @@ function CommandTab({deals,kpiVals,setKpiVals}){
           <SecHead color={T.goldL}>Follow-Ups Due Today ({followUp.length})</SecHead>
           {followUp.map(d=>(
             <div key={d.id} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"7px 9px",background:`${T.gold}08`,borderRadius:6,border:`1px solid ${T.gold}25`,marginBottom:5}}>
-              <div><div style={{...TX.h3}}>{d.address}</div><div style={{...TX.dim,marginTop:2}}>{d.sellerName} 
+              <div><div style={{...TX.h3}}>{d.address}</div><div style={{...TX.dim,marginTop:2}}>{d.sellerName} - {d.stage}</div></div>
               <Tag color={T.goldL}>Follow Up</Tag>
             </div>
           ))}
@@ -361,11 +361,11 @@ function TeamTab(){
         </div>
         {(()=>{const ph=DAILY_PHASES[activePhase];return(
           <div style={{background:`${ph.color}08`,border:`1px solid ${ph.color}30`,borderRadius:8,padding:12}}>
-            <div style={{...TX.h2,color:ph.color,marginBottom:8}}>{ph.phase} · {ph.label}</div>
+            <div style={{...TX.h2,color:ph.color,marginBottom:8}}>{ph.phase} - {ph.label}</div>
             {ph.tasks&&ph.tasks.map((t,i)=><div key={i} style={{display:"flex",gap:7,marginBottom:4}}><div style={{color:ph.color,fontWeight:900}}>›</div><div style={{...TX.body}}>{t}</div></div>)}
             {ph.acqFocus&&(<div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:8}}>
-              <div style={{background:`${T.gold}10`,border:`1px solid ${T.gold}30`,borderRadius:7,padding:10}}><div style={{...TX.label,color:T.gold,marginBottom:6}}>Acquisitions</div>{ph.acqFocus.map((f,i)=><div key={i} style={{...TX.body,fontSize:10,marginBottom:2}}>
-              <div style={{background:`${T.cyanL}10`,border:`1px solid ${T.cyanL}30`,borderRadius:7,padding:10}}><div style={{...TX.label,color:T.cyanL,marginBottom:6}}>Operations</div>{ph.opsFocus.map((f,i)=><div key={i} style={{...TX.body,fontSize:10,marginBottom:2}}>
+              <div style={{background:`${T.gold}10`,border:`1px solid ${T.gold}30`,borderRadius:7,padding:10}}><div style={{...TX.label,color:T.gold,marginBottom:6}}>Acquisitions</div>{ph.acqFocus.map((f,i)=><div key={i} style={{...TX.body,fontSize:10,marginBottom:2}}>- {f}</div>)}</div>
+              <div style={{background:`${T.cyanL}10`,border:`1px solid ${T.cyanL}30`,borderRadius:7,padding:10}}><div style={{...TX.label,color:T.cyanL,marginBottom:6}}>Operations</div>{ph.opsFocus.map((f,i)=><div key={i} style={{...TX.body,fontSize:10,marginBottom:2}}>- {f}</div>)}</div>
             </div>)}
           </div>
         );})()}
@@ -413,11 +413,11 @@ function DealsTab({deals,push}){
     const payload={...form,arv:+form.arv,price:+form.price,repairs:+form.repairs||0,estimatedFee:+form.estimatedFee||0,ts:Date.now()};
     if(editId){
       await updateDoc(doc(db,"deals",editId),payload);
-      push(`Deal updated · Grade ${g.grade}`);
+      push(`Deal updated - Grade ${g.grade}`);
     }else{
       const leadId=`L-${String(deals.length+1).padStart(3,"0")}`;
       await addDoc(collection(db,"deals"),{...payload,leadId,starred:false});
-      push(`Deal added · Grade ${g.grade}`);
+      push(`Deal added - Grade ${g.grade}`);
     }
     setShowForm(false);setEditId(null);setForm(emptyF);
   }
@@ -483,7 +483,7 @@ function DealsTab({deals,push}){
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12}}>
             <div style={{display:"flex",gap:10,alignItems:"flex-start"}}>
               <GradeChip grade={selGrade.grade} color={selGrade.gc} size={20}/>
-              <div><div style={{...TX.h2}}>{selDeal.address}</div><div style={{fontSize:11,fontWeight:700,color:selGrade.gc,marginTop:2}}>{selGrade.verdict} 
+              <div><div style={{...TX.h2}}>{selDeal.address}</div><div style={{fontSize:11,fontWeight:700,color:selGrade.gc,marginTop:2}}>{selGrade.verdict} - {selGrade.urgency}</div></div>
             </div>
             <div style={{display:"flex",gap:5}}>
               <button onClick={()=>deleteDeal(selDeal.id)} style={{background:`${T.red}20`,border:`1px solid ${T.red}50`,borderRadius:5,color:T.red,fontSize:9,fontWeight:700,padding:"4px 9px",cursor:"pointer"}}>Del</button>
@@ -519,7 +519,7 @@ function DealsTab({deals,push}){
                 <div style={{background:`${T.red}15`,border:`1px solid ${T.redL}40`,borderRadius:6,padding:"8px 10px",marginTop:6}}>
                   <div style={{fontSize:9,fontWeight:900,color:T.redL,letterSpacing:1,marginBottom:3}}>
                   <div style={{fontSize:10,color:T.bright,fontWeight:700}}>{dupCheck.address}</div>
-                  <div style={{...TX.dim,marginTop:2}}>Lead {dupCheck.leadId} · Stage: {dupCheck.stage}</div>
+                  <div style={{...TX.dim,marginTop:2}}>Lead {dupCheck.leadId} - Stage: {dupCheck.stage}</div>
                   <div style={{fontSize:9,color:T.orange,fontWeight:700,marginTop:4}}>Fix the address or edit the existing deal instead.</div>
                 </div>
               )}
@@ -553,7 +553,7 @@ function DealsTab({deals,push}){
               return(<div style={{background:`${g.gc}0d`,border:`1px solid ${g.gc}44`,borderRadius:8,padding:"10px 13px",marginBottom:12}}>
                 <div style={{display:"flex",alignItems:"center",gap:9}}>
                   <GradeChip grade={g.grade} color={g.gc} size={14}/>
-                  <div><div style={{fontSize:11,fontWeight:800,color:g.gc}}>{g.verdict} · {g.urgency}</div><div style={{...TX.body,marginTop:2}}>MAO: {fmt(g.mao)} 
+                  <div><div style={{fontSize:11,fontWeight:800,color:g.gc}}>{g.verdict} - {g.urgency}</div><div style={{...TX.body,marginTop:2}}>MAO: {fmt(g.mao)} - Margin: {pctS(g.margin)}</div></div>
                 </div>
               </div>);
             })()}
@@ -588,7 +588,7 @@ function PipelineTab({deals}){
               <div style={{display:"flex",alignItems:"center",gap:7}}>
                 <div style={{width:8,height:8,borderRadius:2,background:sc,boxShadow:`0 0 6px ${sc}`}}/>
                 <div style={{fontSize:11,fontWeight:800,color:sc,textTransform:"uppercase",letterSpacing:0.5}}>{stage}</div>
-                <div style={{fontSize:9,color:T.mid,fontStyle:"italic"}}>· {STAGE_MEANING[stage]}</div>
+                <div style={{fontSize:9,color:T.mid,fontStyle:"italic"}}>- {STAGE_MEANING[stage]}</div>
               </div>
               <Tag color={sc}>{sd.length} deal{sd.length!==1?"s":""}</Tag>
             </div>
@@ -647,13 +647,13 @@ function CalcTab(){
         <div style={{...TX.body,marginTop:6,color:T.mid}}>{fmt(cArv)} × {cDisc}% − {fmt(cRep)} repairs 
       </div>
       <Panel>
-        <SecHead>Enter Asking Price · Get Verdict</SecHead>
+        <SecHead>Enter Asking Price - Get Verdict</SecHead>
         <NInput label="Seller's Asking Price" val={cPrice||""} onChange={v=>setCPrice(+v||0)} prefix="$"/>
         {cPrice>0&&(()=>{
           const g=calcDeal(cArv,cPrice,cRep,cFee,cDisc/100);
           return(<div style={{marginTop:10,background:g.isProfitable?`${T.green}15`:`${T.red}10`,border:`1px solid ${g.isProfitable?T.green:T.red}40`,borderRadius:8,padding:"12px 14px"}}>
-            <div style={{fontSize:15,fontWeight:900,color:g.isProfitable?T.greenL:T.red}}>{g.verdict} 
-            <div style={{...TX.body,marginTop:4}}>Grade: {g.grade} · Margin: {pctS(g.margin)} 
+            <div style={{fontSize:15,fontWeight:900,color:g.isProfitable?T.greenL:T.red}}>{g.verdict} - {g.urgency}</div>
+            <div style={{...TX.body,marginTop:4}}>Grade: {g.grade} - Margin: {pctS(g.margin)} - Buyer Profit: {fmt(g.buyerProfit)}</div>
           </div>);
         })()}
       </Panel>
@@ -759,7 +759,7 @@ function SitesTab(){
     <div>
       <div style={{background:`linear-gradient(135deg,${T.bg1},${T.bg3})`,border:`1px solid ${T.cyanL}30`,borderRadius:10,padding:"12px 14px",marginBottom:10}}>
         <div style={{...TX.h2,color:T.cyanL,marginBottom:4}}>Lead Source Directory</div>
-        <div style={{...TX.body}}>32 vetted platforms for finding motivated sellers · Updated 2026</div>
+        <div style={{...TX.body}}>32 vetted platforms for finding motivated sellers - Updated 2026</div>
       </div>
       <div style={{background:T.bg2,border:`1px solid ${T.cyan}40`,borderRadius:8,display:"flex",alignItems:"center",gap:8,padding:"8px 12px",marginBottom:10}}>
         <span style={{fontSize:14,color:T.cyan}}>⌕</span>
@@ -827,7 +827,7 @@ function PricingTab(){
     <div>
       <div style={{background:`linear-gradient(135deg,${T.bg1},${T.bg3})`,border:`1px solid ${T.gold}30`,borderRadius:10,padding:"12px 14px",marginBottom:10}}>
         <div style={{...TX.h2,color:T.goldL,marginBottom:4}}>Contractor Pricing by ZIP Code</div>
-        <div style={{...TX.body}}>2026 national pricing database · Low / Mid / High tiers · Regional COL adjusted</div>
+        <div style={{...TX.body}}>2026 national pricing database - Low / Mid / High tiers - Regional COL adjusted</div>
       </div>
       <div style={{background:`linear-gradient(135deg,${T.bg3},${T.bg2})`,border:`1px solid ${T.gold}40`,borderRadius:10,padding:"14px",marginBottom:10}}>
         <SecHead color={T.goldL}>ZIP Code Lookup</SecHead>
@@ -847,7 +847,7 @@ function PricingTab(){
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:6}}>
               <div>
                 <div style={{fontSize:12,fontWeight:900,color:T.goldL}}> {region.label}</div>
-                <div style={{...TX.dim,marginTop:2}}>ZIP {searchedZip} · Multiplier: <span style={{color:region.mult>1.2?T.orange:region.mult<0.95?T.green:T.gold,fontWeight:900}}>{region.mult.toFixed(2)}
+                <div style={{...TX.dim,marginTop:2}}>ZIP {searchedZip} - Multiplier: <span style={{color:region.mult>1.2?T.orange:region.mult<0.95?T.green:T.gold,fontWeight:900}}>{region.mult.toFixed(2)}
                 <div style={{fontSize:9,color:T.text,marginTop:3,fontStyle:"italic"}}>{region.note}</div>
               </div>
               <div style={{background:region.mult>1.3?`${T.red}20`:region.mult<0.95?`${T.green}20`:`${T.gold}20`,border:`1px solid ${region.mult>1.3?T.red:region.mult<0.95?T.green:T.gold}50`,borderRadius:8,padding:"6px 12px",textAlign:"center"}}>
@@ -868,12 +868,12 @@ function PricingTab(){
         <div style={{textAlign:"center",padding:"24px",color:T.mid,fontSize:11}}>
           <div style={{fontSize:28,marginBottom:8}}> </div>
           <div style={{fontWeight:700,color:T.text}}>Enter a ZIP code above to see local contractor pricing</div>
-          <div style={{fontSize:10,marginTop:4}}>Covers 40+ major metro areas · 2026 pricing</div>
+          <div style={{fontSize:10,marginTop:4}}>Covers 40+ major metro areas - 2026 pricing</div>
         </div>
       )}
       {region&&(
         <div>
-          <SecHead color={T.goldL}>2026 Contractor Pricing · {region.label}</SecHead>
+          <SecHead color={T.goldL}>2026 Contractor Pricing - {region.label}</SecHead>
           <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:6,marginBottom:10}}>
             {tiers.map(tier=>(
               <div key={tier.key} style={{background:`${tier.color}10`,border:`1px solid ${tier.color}40`,borderRadius:8,padding:"8px 10px",textAlign:"center"}}>
@@ -913,7 +913,7 @@ function PricingTab(){
                       ))}
                     </div>
                     <div style={{background:`${T.cyan}08`,border:`1px solid ${T.cyan}20`,borderRadius:6,padding:"7px 10px"}}>
-                      <div style={{fontSize:8,fontWeight:900,color:T.cyan,letterSpacing:1,marginBottom:3}}>REGIONAL ADJUSTMENT 
+                      <div style={{fontSize:8,fontWeight:900,color:T.cyan,letterSpacing:1,marginBottom:3}}>REGIONAL ADJUSTMENT - {region.mult.toFixed(2)}
                       <div style={{fontSize:9,color:T.text}}>National base: {fmt(work.low)} / {fmt(work.mid)} / {fmt(work.high)} 
                     </div>
                   </div>
@@ -922,7 +922,7 @@ function PricingTab(){
             );
           })}
           <div style={{background:`${T.mid}15`,border:`1px solid ${T.line}`,borderRadius:8,padding:"10px 12px",marginTop:8}}>
-            <div style={{fontSize:9,fontWeight:900,color:T.mid,marginBottom:4}}>⚠ DISCLAIMER 
+            <div style={{fontSize:9,fontWeight:900,color:T.mid,marginBottom:4}}>⚠ DISCLAIMER - Always get 3 bids (Iron Law #11)</div>
             <div style={{fontSize:9,color:T.dim,lineHeight:1.6}}>Prices are 2026 estimates. Actual bids vary by scope and contractor availability. Use as a sanity check — never as your only estimate.</div>
           </div>
         </div>
@@ -1032,7 +1032,7 @@ export default function App(){
           <div style={{width:8,height:8,borderRadius:"50%",background:pulse?syncColor:T.cyanD,boxShadow:`0 0 ${pulse?12:6}px ${pulse?syncColor:T.cyanD}`,transition:"all 0.3s"}}/>
           <div>
             <div style={{fontSize:12,fontWeight:900,letterSpacing:2.5,background:`linear-gradient(90deg,${T.cyan},${T.elec},${T.blue})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>BASE APEX V8.0</div>
-            <div style={{fontSize:7,color:syncColor,letterSpacing:1,fontWeight:700}}>{clock.toLocaleTimeString()} 
+            <div style={{fontSize:7,color:syncColor,letterSpacing:1,fontWeight:700}}>{clock.toLocaleTimeString()} - {syncLabel}</div>
           </div>
         </div>
         {/* GLOBAL SEARCH */}
@@ -1058,7 +1058,7 @@ export default function App(){
                       </div>
                       <div style={{flex:1,minWidth:0}}>
                         <div style={{...TX.h3,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r._type==="deal"?r.address:r.name}</div>
-                        <div style={{...TX.dim}}>{r._type==="deal"?`${r.stage} · ${r.leadId}`:r._type==="buyer"?`Buyer 
+                        <div style={{...TX.dim}}>{r._type==="deal"?`${r.stage} - ${r.leadId}`:r._type==="buyer"?`Buyer - ${r.area}`:r.cat}</div>
                       </div>
                     </div>
                   ))}
