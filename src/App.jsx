@@ -325,7 +325,6 @@ function CommandTab({deals,kpiVals,setKpiVals}){
       </Panel>
     </div>
   );
-}
 // -- TEAM TAB -
 function TeamTab(){
   const [activePhase,setActivePhase]=useState(0);
