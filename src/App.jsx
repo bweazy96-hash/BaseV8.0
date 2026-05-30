@@ -1,21 +1,21 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  BASE APEX V8.0  —  NETLIFY PRODUCTION BUILD
+// -
+//  BASE APEX V8.0  -  NETLIFY PRODUCTION BUILD
 //  Firebase Firestore live sync - All 10 tabs - Deploy ready
 //
 //  SETUP:
 //  1. npm install firebase
-//  2. Firebase config below is already set — no changes needed
-//  3. Firebase Console → Firestore → Rules → set:
+//  2. Firebase config below is already set - no changes needed
+//  3. Firebase Console - Firestore - Rules - set:
 //       allow read, write: if true;   (tighten before going public)
 //  4. netlify deploy --prod
-// ─────────────────────────────────────────────────────────────────────────────
+// -
 import { useState, useEffect, useRef } from "react";
 import { initializeApp } from "firebase/app";
 import {
   getFirestore, collection, onSnapshot,
   addDoc, updateDoc, deleteDoc, doc, setDoc,
 } from "firebase/firestore";
-// ── FIREBASE ──────────────────────────────────────────────────────────────────
+// -- FIREBASE -
 const firebaseConfig = {
   apiKey:            "AIzaSyCazjyRAq4Y8aQZszhT4mT18CzfSl4Sdx0",
   authDomain:        "whole-sale-74a40.firebaseapp.com",
@@ -26,7 +26,7 @@ const firebaseConfig = {
 };
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
-// ── PALETTE ───────────────────────────────────────────────────────────────────
+// -- PALETTE -
 const T = {
   bg0:"#00040d",bg1:"#000814",bg2:"#010e20",bg3:"#021428",bg4:"#031b34",
   line:"#0a2a4a",line2:"#0d3860",
@@ -58,7 +58,7 @@ function calcDeal(arv,price,repairs,fee=8000,disc=0.70){
   else                   {grade="D"; gc=T.red;    verdict="No Deal";     urgency="ARCHIVE";}
   return {mao,margin,spread,buyerProfit,grade,gc,verdict,urgency,isProfitable:spread<0};
 }
-// ── STATIC DATA ───────────────────────────────────────────────────────────────
+// -- STATIC DATA -
 const STAGES=["New Lead","Attempted Contact","Warm Lead","Follow-Up Needed","Appointment Set","Under Negotiation","Under Contract","Sent To Buyers","Closed","Dead Lead"];
 const STAGE_MEANING={"New Lead":"Not contacted","Attempted Contact":"Outreach started","Warm Lead":"Interested","Follow-Up Needed":"Future opportunity","Appointment Set":"Active negotiation","Under Negotiation":"Serious lead","Under Contract":"Secured deal","Sent To Buyers":"Disposition stage","Closed":"Assignment completed","Dead Lead":"Not viable"};
 const STAGE_COLORS={"New Lead":T.blue,"Attempted Contact":T.blueL,"Warm Lead":T.teal,"Follow-Up Needed":T.gold,"Appointment Set":T.purple,"Under Negotiation":T.orange,"Under Contract":T.orangeL,"Sent To Buyers":T.purpleL,"Closed":T.green,"Dead Lead":T.red};
@@ -89,15 +89,15 @@ const IRON_LAWS=[
   {n:12,law:"10+ Buyers Every Deal",        color:T.greenL, detail:"Blast every deal to 10+ buyers simultaneously. More eyes = faster close."},
 ];
 const ALL_SCRIPTS=[
-  {role:"ACQ",  color:T.gold,  title:"Cold Call Opener",         body:"Hi, is this [NAME]? My name is [YOUR NAME] — I'm a local real estate investor. I noticed your property at [ADDRESS] and wanted to see if you'd ever consider a cash offer? No pressure, just exploring options."},
-  {role:"ACQ",  color:T.gold,  title:"4 Qualification Questions",body:"1. \"What's the situation — is it vacant or are you living there?\"\n2. \"How soon are you looking to close if you had the right offer?\"\n3. \"Have you done any repairs recently, or does it need work?\"\n4. \"What price would make this a no-brainer for you?\""},
+  {role:"ACQ",  color:T.gold,  title:"Cold Call Opener",         body:"Hi, is this [NAME]? My name is [YOUR NAME] -- I'm a local real estate investor. I noticed your property at [ADDRESS] and wanted to see if you'd ever consider a cash offer? No pressure, just exploring options."},
+  {role:"ACQ",  color:T.gold,  title:"4 Qualification Questions",body:"1. \"What's the situation -- is it vacant or are you living there?\"\n2. \"How soon are you looking to close if you had the right offer?\"\n3. \"Have you done any repairs recently, or does it need work?\"\n4. \"What price would make this a no-brainer for you?\""},
   {role:"ACQ",  color:T.gold,  title:"Making the Offer",         body:"Based on the condition and values in the area, I can offer [MAO-10%] cash, close in [14-21] days, no repairs, no commissions. I know that might be lower than you hoped, but that speed and certainty has real value. Does that work?"},
-  {role:"ACQ",  color:T.gold,  title:"Handling I Want More",     body:"I understand completely. Here's my challenge — I have to account for repairs, holding costs, and my margin to make numbers work. If I could get you to [SLIGHTLY HIGHER], would that get us to a yes today?"},
-  {role:"ACQ",  color:T.gold,  title:"Locking the Contract",     body:"Perfect — I'll send a simple purchase agreement within the hour. Just sign and we move forward. My title company handles everything from there. Does [EMAIL] work?"},
-  {role:"OPS",  color:T.cyanL, title:"Buyer Blast Text",         body:"NEW DEAL — [AREA], TUCSON\nARV: $[X] | Asking: $[Y] | Repairs: $[Z]\nEquity: $[SPREAD] | Grade: [GRADE]\nPOF required for address. Reply YES for full details."},
-  {role:"OPS",  color:T.cyanL, title:"Investor Outreach",        body:"Hey [NAME], I have a new deal in [AREA] — ARV around $[X], asking $[Y]. Solid spread after repairs. Want the full breakdown? Just need quick POF confirmation first."},
-  {role:"OPS",  color:T.cyanL, title:"Follow-Up Sequence",       body:"Day 1: Call (opener script)\nDay 3: Text — \"Hey [NAME], following up on [ADDRESS]. Still interested?\"\nDay 7: Call again\nDay 14: Text — \"Last check-in on [ADDRESS]. Offer still open.\"\nDay 30: Final — \"Keeping your info for future. Call anytime.\""},
-  {role:"TITLE",color:T.purple,title:"Title Company Intro",      body:"Subject: New Investor Account — [YOUR NAME]\n\nHi [TITLE REP], I'm a local wholesaler closing [X] deals/month in the Tucson market. Looking to establish a relationship for double-closes and assignments. Can we do 15 min this week?"},
+  {role:"ACQ",  color:T.gold,  title:"Handling I Want More",     body:"I understand completely. Here's my challenge -- I have to account for repairs, holding costs, and my margin to make numbers work. If I could get you to [SLIGHTLY HIGHER], would that get us to a yes today?"},
+  {role:"ACQ",  color:T.gold,  title:"Locking the Contract",     body:"Perfect -- I'll send a simple purchase agreement within the hour. Just sign and we move forward. My title company handles everything from there. Does [EMAIL] work?"},
+  {role:"OPS",  color:T.cyanL, title:"Buyer Blast Text",         body:"NEW DEAL -- [AREA], TUCSON\nARV: $[X] | Asking: $[Y] | Repairs: $[Z]\nEquity: $[SPREAD] | Grade: [GRADE]\nPOF required for address. Reply YES for full details."},
+  {role:"OPS",  color:T.cyanL, title:"Investor Outreach",        body:"Hey [NAME], I have a new deal in [AREA] -- ARV around $[X], asking $[Y]. Solid spread after repairs. Want the full breakdown? Just need quick POF confirmation first."},
+  {role:"OPS",  color:T.cyanL, title:"Follow-Up Sequence",       body:"Day 1: Call (opener script)\nDay 3: Text -- \"Hey [NAME], following up on [ADDRESS]. Still interested?\"\nDay 7: Call again\nDay 14: Text -- \"Last check-in on [ADDRESS]. Offer still open.\"\nDay 30: Final -- \"Keeping your info for future. Call anytime.\""},
+  {role:"TITLE",color:T.purple,title:"Title Company Intro",      body:"Subject: New Investor Account -- [YOUR NAME]\n\nHi [TITLE REP], I'm a local wholesaler closing [X] deals/month in the Tucson market. Looking to establish a relationship for double-closes and assignments. Can we do 15 min this week?"},
 ];
 const PARTNERS={
   acq:{name:"Partner 1 - Acquisitions",short:"Acq",mission:"Secure opportunities.",color:T.gold, icon:"ACQ",responsibilities:["Seller calls","Lead qualification","Negotiations","Appointments","Relationship building","Offers","Contract execution","Seller follow-up"]},
@@ -142,8 +142,8 @@ const LEAD_SITES=[
 ];
 const BASE_CONTRACTOR_WORK=[
   {id:"roof",    name:"Roof Replacement",      icon:" ",unit:"per sq ft", low:3.80, mid:5.50, high:8.20, desc:"Full tear-off and replace, asphalt shingles. Metal/tile adds 40-80%."},
-  {id:"hvac",    name:"HVAC System (3-ton)",   icon:" ",unit:"per unit",  low:4200, mid:6800, high:11500,desc:"Full HVAC install including air handler, condenser, and ductwork connections."},
-  {id:"elec",    name:"Electrical Panel",      icon:" ",unit:"per panel", low:1800, mid:2800, high:4500, desc:"200-amp panel upgrade. Full rewire of home is 3-5x this cost."},
+  {id:"hvac",    name:"HVAC System (3-ton)",   icon:"",unit:"per unit",  low:4200, mid:6800, high:11500,desc:"Full HVAC install including air handler, condenser, and ductwork connections."},
+  {id:"elec",    name:"Electrical Panel",      icon:"",unit:"per panel", low:1800, mid:2800, high:4500, desc:"200-amp panel upgrade. Full rewire of home is 3-5x this cost."},
   {id:"plumb",   name:"Plumbing (Full Repipe)",icon:" ",unit:"per house", low:4500, mid:7200, high:12000,desc:"Whole-home copper or PEX repipe, 3/2 home. Spot repairs much less."},
   {id:"kitchen", name:"Kitchen Remodel",       icon:" ",unit:"per project",low:8500,mid:18000,high:42000,desc:"Cabinets, countertops, appliances, flooring, fixtures. Cosmetic only is 40% less."},
   {id:"bath",    name:"Bathroom Remodel",      icon:" ",unit:"per bath",  low:4200, mid:8500, high:18000,desc:"Full gut and redo. Vanity, tile, toilet, fixtures, drywall."},
@@ -152,7 +152,7 @@ const BASE_CONTRACTOR_WORK=[
   {id:"paint",   name:"Interior Paint",        icon:" ",unit:"per sq ft", low:1.20, mid:2.00, high:3.50, desc:"Walls and ceilings, 2-coat. Includes primer. Trim adds 30%."},
   {id:"windows", name:"Window Replacement",    icon:" ",unit:"per window",low:280,  mid:550,  high:1100, desc:"Standard double-pane vinyl replacement. Labor included."},
   {id:"doors",   name:"Interior Doors",        icon:" ",unit:"per door",  low:180,  mid:320,  high:650,  desc:"Prehung hollow core install. Solid core adds 40-60%."},
-  {id:"foundation",name:"Foundation Repair",  icon:" ",unit:"per pier",  low:800,  mid:1500, high:3200, desc:"Per pier for push or helical piers. Full foundation jobs 15-50+ piers."},
+  {id:"foundation",name:"Foundation Repair",  icon:"",unit:"per pier",  low:800,  mid:1500, high:3200, desc:"Per pier for push or helical piers. Full foundation jobs 15-50+ piers."},
   {id:"demo",    name:"Demo & Hauling",        icon:" ",unit:"per room",  low:400,  mid:850,  high:1800, desc:"Full room demo, dumpster, haul-away. Add 20% for hazmat (asbestos/lead)."},
   {id:"landscape",name:"Landscaping",         icon:" ",unit:"per project",low:800, mid:2200, high:6500, desc:"Cleanup, gravel/sod, basic plants, curb appeal package."},
   {id:"garage",  name:"Garage Door",          icon:" ",unit:"per door",  low:850,  mid:1400, high:2800, desc:"Standard single-car replacement. Double door add 50%. Opener included."},
@@ -201,7 +201,7 @@ const TABS=[
   {id:"scripts",label:"Scripts"},{id:"sites",label:"Sites"},
   {id:"pricing",label:"Pricing"},{id:"sop",label:"SOP"},
 ];
-// ── SHARED UI ─────────────────────────────────────────────────────────────────
+// -- SHARED UI -
 const GradeChip=({grade,color,size=14})=>(
   <div style={{width:size+16,height:size+16,borderRadius:5,background:`${color}18`,border:`1.5px solid ${color}60`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:size-2,fontWeight:900,color,fontFamily:"monospace",flexShrink:0,boxShadow:`0 0 10px ${color}30`}}>{grade}</div>
 );
@@ -252,7 +252,7 @@ function useToast(){
   };
   return {toasts,push};
 }
-// ── COMMAND TAB ───────────────────────────────────────────────────────────────
+// -- COMMAND TAB -
 function CommandTab({deals,kpiVals,setKpiVals}){
   const closed=deals.filter(d=>d.stage==="Closed");
   const hot=deals.filter(d=>["A+","A"].includes(calcDeal(d.arv,d.price,d.repairs).grade));
@@ -299,7 +299,7 @@ function CommandTab({deals,kpiVals,setKpiVals}){
         </div>
       </Panel>
       <Panel>
-        <SecHead>Weekly KPI Tracker — Live Synced</SecHead>
+        <SecHead>Weekly KPI Tracker -- Live Synced</SecHead>
         {WEEKLY_KPIS.map((kpi,i)=>{
           const val=kpiVals[kpi.id]||0,pct=clamp(val/kpi.target,0,1),done=val>=kpi.target;
           return(
@@ -327,7 +327,7 @@ function CommandTab({deals,kpiVals,setKpiVals}){
     </div>
   );
 }
-// ── TEAM TAB ──────────────────────────────────────────────────────────────────
+// -- TEAM TAB -
 function TeamTab(){
   const [activePhase,setActivePhase]=useState(0);
   const [dailyChecks,setDailyChecks]=useState({});
@@ -362,7 +362,7 @@ function TeamTab(){
         {(()=>{const ph=DAILY_PHASES[activePhase];return(
           <div style={{background:`${ph.color}08`,border:`1px solid ${ph.color}30`,borderRadius:8,padding:12}}>
             <div style={{...TX.h2,color:ph.color,marginBottom:8}}>{ph.phase} - {ph.label}</div>
-            {ph.tasks&&ph.tasks.map((t,i)=><div key={i} style={{display:"flex",gap:7,marginBottom:4}}><div style={{color:ph.color,fontWeight:900}}>›</div><div style={{...TX.body}}>{t}</div></div>)}
+            {ph.tasks&&ph.tasks.map((t,i)=><div key={i} style={{display:"flex",gap:7,marginBottom:4}}><div style={{color:ph.color,fontWeight:900}}>></div><div style={{...TX.body}}>{t}</div></div>)}
             {ph.acqFocus&&(<div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginTop:8}}>
               <div style={{background:`${T.gold}10`,border:`1px solid ${T.gold}30`,borderRadius:7,padding:10}}><div style={{...TX.label,color:T.gold,marginBottom:6}}>Acquisitions</div>{ph.acqFocus.map((f,i)=><div key={i} style={{...TX.body,fontSize:10,marginBottom:2}}>- {f}</div>)}</div>
               <div style={{background:`${T.cyanL}10`,border:`1px solid ${T.cyanL}30`,borderRadius:7,padding:10}}><div style={{...TX.label,color:T.cyanL,marginBottom:6}}>Operations</div>{ph.opsFocus.map((f,i)=><div key={i} style={{...TX.body,fontSize:10,marginBottom:2}}>- {f}</div>)}</div>
@@ -375,7 +375,7 @@ function TeamTab(){
         {["Review pipeline together","Review all follow-ups due today","Identify today's top 3 targets","Confirm appointments set","Review last 24h CRM updates","Set tomorrow's priorities"].map((item,i)=>{
           const done=dailyChecks[i];
           return(<div key={i} onClick={()=>setDailyChecks(p=>({...p,[i]:!p[i]}))} style={{display:"flex",alignItems:"center",gap:9,padding:"7px 9px",marginBottom:4,background:done?`${T.green}08`:T.bg1,border:`1px solid ${done?T.green+"40":T.line}`,borderRadius:7,cursor:"pointer",transition:"all 0.2s"}}>
-            <div style={{width:18,height:18,borderRadius:4,flexShrink:0,border:`1.5px solid ${done?T.green:T.line2}`,background:done?`${T.green}30`:"none",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,color:T.green}}>{done?"
+            <div style={{width:18,height:18,borderRadius:4,flexShrink:0,border:`1.5px solid ${done?T.green:T.line2}`,background:done?`${T.green}30`:"none",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,color:T.green}}>{done?"v":""}</div>
             <div style={{...TX.body,color:done?T.greenL:T.bright,textDecoration:done?"line-through":"none"}}>{item}</div>
           </div>);
         })}
@@ -383,7 +383,7 @@ function TeamTab(){
     </div>
   );
 }
-// ── DEALS TAB ─────────────────────────────────────────────────────────────────
+// -- DEALS TAB -
 function DealsTab({deals,push}){
   const [dealFilter,setDealFilter]=useState("all");
   const [areaFilter,setAreaFilter]=useState("All Areas");
@@ -408,7 +408,7 @@ function DealsTab({deals,push}){
   });
   async function submitDeal(){
     if(!form.address||!form.arv||!form.price){push("Need Address, ARV, and Price","error");return;}
-    if(dupCheck&&!editId){push("Duplicate address — fix or edit existing deal","error");return;}
+    if(dupCheck&&!editId){push("Duplicate address -- fix or edit existing deal","error");return;}
     const g=calcDeal(form.arv,form.price,form.repairs);
     const payload={...form,arv:+form.arv,price:+form.price,repairs:+form.repairs||0,estimatedFee:+form.estimatedFee||0,ts:Date.now()};
     if(editId){
@@ -434,7 +434,7 @@ function DealsTab({deals,push}){
   return(
     <div>
       <div style={{display:"flex",gap:5,marginBottom:8,flexWrap:"wrap",alignItems:"center"}}>
-        {[{id:"all",label:"All"},{id:"hot",label:"Hot "},{id:"starred",label:" Starred"},{id:"followup",label:"Follow-Up"}].map(f=>(
+        {[{id:"all",label:"All"},{id:"hot",label:"Hot "},{id:"starred",label:"* Starred"},{id:"followup",label:"Follow-Up"}].map(f=>(
           <button key={f.id} onClick={()=>setDealFilter(f.id)} style={{background:dealFilter===f.id?`${T.cyan}20`:"none",border:`1px solid ${dealFilter===f.id?T.cyan+"60":T.line}`,borderRadius:5,color:dealFilter===f.id?T.cyan:T.mid,fontSize:9,fontWeight:700,padding:"4px 10px",cursor:"pointer",transition:"all 0.15s"}}>{f.label}</button>
         ))}
         <select value={areaFilter} onChange={e=>setAreaFilter(e.target.value)} style={{background:T.bg1,border:`1px solid ${T.line}`,borderRadius:5,color:T.text,fontSize:9,padding:"4px 8px",marginLeft:"auto"}}>
@@ -442,7 +442,6 @@ function DealsTab({deals,push}){
         </select>
       </div>
       {filtered.length===0&&<div style={{textAlign:"center",padding:"30px",color:T.mid,fontSize:11}}>No deals in this filter</div>}
-</span>}
       {filtered.map(deal=>{
         const g=calcDeal(deal.arv,deal.price,deal.repairs),sc=STAGE_COLORS[deal.stage]||T.mid;
         return(
@@ -453,7 +452,7 @@ function DealsTab({deals,push}){
                 <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:3}}>
                   <span style={{fontSize:8,color:T.cyan,fontFamily:"monospace",fontWeight:700}}>{deal.leadId}</span>
                   <div style={{...TX.h3,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{deal.address}</div>
-                  {deal.starred&&<span style={{color:T.goldL}}>
+                  {deal.starred&&<span style={{color:T.goldL}}>*</span>}
                 </div>
                 {deal.sellerName&&<div style={{fontSize:10,color:T.blueL,fontWeight:700,marginBottom:3}}>{deal.sellerName}</div>}
                 <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:5}}>
@@ -470,9 +469,9 @@ function DealsTab({deals,push}){
                 {deal.notes&&<div style={{...TX.body,marginTop:5,fontStyle:"italic",fontSize:10,color:T.mid}}>{deal.notes}</div>}
               </div>
               <div style={{flexShrink:0,display:"flex",flexDirection:"column",gap:4}}>
-                <button onClick={e=>{e.stopPropagation();toggleStar(deal.id,deal.starred);}} style={{background:"none",border:"none",cursor:"pointer",fontSize:14,color:deal.starred?T.goldL:T.dim,padding:0}}>
-                <button onClick={e=>{e.stopPropagation();advanceStage(deal.id);}} style={{background:`${T.cyan}20`,border:`1px solid ${T.cyan}40`,borderRadius:4,color:T.cyan,fontSize:8,fontWeight:800,padding:"3px 5px",cursor:"pointer"}}>›</button>
-                <button onClick={e=>{e.stopPropagation();setForm({...deal,arv:String(deal.arv),price:String(deal.price),repairs:String(deal.repairs||""),estimatedFee:String(deal.estimatedFee||"")});setEditId(deal.id);setShowForm(true);}} style={{background:`${T.gold}20`,border:`1px solid ${T.gold}40`,borderRadius:4,color:T.gold,fontSize:8,fontWeight:800,padding:"3px 5px",cursor:"pointer"}}>
+                <button onClick={e=>{e.stopPropagation();toggleStar(deal.id,deal.starred);}} style={{background:"none",border:"none",cursor:"pointer",fontSize:14,color:deal.starred?T.goldL:T.dim,padding:0}}>*</button>
+                <button onClick={e=>{e.stopPropagation();advanceStage(deal.id);}} style={{background:`${T.cyan}20`,border:`1px solid ${T.cyan}40`,borderRadius:4,color:T.cyan,fontSize:8,fontWeight:800,padding:"3px 5px",cursor:"pointer"}}>></button>
+                <button onClick={e=>{e.stopPropagation();setForm({...deal,arv:String(deal.arv),price:String(deal.price),repairs:String(deal.repairs||""),estimatedFee:String(deal.estimatedFee||"")});setEditId(deal.id);setShowForm(true);}} style={{background:`${T.gold}20`,border:`1px solid ${T.gold}40`,borderRadius:4,color:T.gold,fontSize:8,fontWeight:800,padding:"3px 5px",cursor:"pointer"}}>E</button>
               </div>
             </div>
           </div>
@@ -487,7 +486,7 @@ function DealsTab({deals,push}){
             </div>
             <div style={{display:"flex",gap:5}}>
               <button onClick={()=>deleteDeal(selDeal.id)} style={{background:`${T.red}20`,border:`1px solid ${T.red}50`,borderRadius:5,color:T.red,fontSize:9,fontWeight:700,padding:"4px 9px",cursor:"pointer"}}>Del</button>
-              <button onClick={()=>setSelectedDeal(null)} style={{background:T.bg1,border:`1px solid ${T.line}`,borderRadius:5,color:T.mid,fontSize:9,padding:"4px 9px",cursor:"pointer"}}>
+              <button onClick={()=>setSelectedDeal(null)} style={{background:T.bg1,border:`1px solid ${T.line}`,borderRadius:5,color:T.mid,fontSize:9,padding:"4px 9px",cursor:"pointer"}}>x</button>
             </div>
           </div>
           <div style={{background:`linear-gradient(135deg,${T.bg0},${T.bg1})`,border:`1px solid ${T.gold}30`,borderRadius:8,padding:"12px 14px",marginBottom:10,textAlign:"center"}}>
@@ -509,7 +508,7 @@ function DealsTab({deals,push}){
           <div style={{background:`linear-gradient(135deg,${T.bg3},${T.bg2})`,border:`1px solid ${T.cyan}40`,borderRadius:12,padding:18,width:"94%",maxWidth:520,maxHeight:"90vh",overflowY:"auto",boxShadow:`0 0 50px ${T.cyan}20`}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
               <div style={{...TX.h2,color:T.cyan}}>{editId?"Edit Deal":"Add New Deal"}</div>
-              <button onClick={()=>{setShowForm(false);setEditId(null);setForm(emptyF);}} style={{background:"none",border:"none",color:T.mid,cursor:"pointer",fontSize:20}}>
+              <button onClick={()=>{setShowForm(false);setEditId(null);setForm(emptyF);}} style={{background:"none",border:"none",color:T.mid,cursor:"pointer",fontSize:20}}>x</button>
             </div>
             <div style={{marginBottom:10}}>
               <div style={{...TX.label,marginBottom:3}}>Property Address *</div>
@@ -517,13 +516,13 @@ function DealsTab({deals,push}){
                 style={{width:"100%",background:dupCheck?`${T.red}10`:T.bg1,border:`1.5px solid ${dupCheck?T.red:form.address.length>5?T.cyan+"60":T.line2}`,borderRadius:6,color:T.white,fontSize:11,padding:"8px 11px",outline:"none",fontFamily:"monospace",transition:"border-color 0.2s"}}/>
               {dupCheck&&(
                 <div style={{background:`${T.red}15`,border:`1px solid ${T.redL}40`,borderRadius:6,padding:"8px 10px",marginTop:6}}>
-                  <div style={{fontSize:9,fontWeight:900,color:T.redL,letterSpacing:1,marginBottom:3}}>
+                  <div style={{fontSize:9,fontWeight:900,color:T.redL,letterSpacing:1,marginBottom:3}}>! DUPLICATE ADDRESS DETECTED</div>
                   <div style={{fontSize:10,color:T.bright,fontWeight:700}}>{dupCheck.address}</div>
                   <div style={{...TX.dim,marginTop:2}}>Lead {dupCheck.leadId} - Stage: {dupCheck.stage}</div>
                   <div style={{fontSize:9,color:T.orange,fontWeight:700,marginTop:4}}>Fix the address or edit the existing deal instead.</div>
                 </div>
               )}
-              {!dupCheck&&form.address.length>5&&<div style={{fontSize:9,color:T.green,fontWeight:700,marginTop:4}}>
+              {!dupCheck&&form.address.length>5&&<div style={{fontSize:9,color:T.green,fontWeight:700,marginTop:4}}>v No duplicate found -- address is unique</div>}
             </div>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,marginBottom:10}}>
               {[{l:"ARV ($)*",k:"arv"},{l:"Price ($)*",k:"price"},{l:"Repairs ($)",k:"repairs"}].map(({l,k})=>(
@@ -569,7 +568,7 @@ function DealsTab({deals,push}){
     </div>
   );
 }
-// ── PIPELINE TAB ──────────────────────────────────────────────────────────────
+// -- PIPELINE TAB -
 function PipelineTab({deals}){
   async function advanceStage(id){
     const deal=deals.find(d=>d.id===id);if(!deal)return;
@@ -604,7 +603,7 @@ function PipelineTab({deals}){
                     <div style={{flexShrink:0,textAlign:"right",marginLeft:10}}>
                       <div style={{fontSize:12,color:T.gold,fontFamily:"monospace",fontWeight:900}}>{fmt(g.mao)}</div>
                       <div style={{fontSize:10,color:g.gc,fontWeight:700}}>{pctS(g.margin)}</div>
-                      <button onClick={()=>advanceStage(deal.id)} style={{background:`${sc}20`,border:`1px solid ${sc}40`,borderRadius:4,color:sc,fontSize:8,fontWeight:800,padding:"2px 6px",cursor:"pointer",marginTop:3}}>Advance ›</button>
+                      <button onClick={()=>advanceStage(deal.id)} style={{background:`${sc}20`,border:`1px solid ${sc}40`,borderRadius:4,color:sc,fontSize:8,fontWeight:800,padding:"2px 6px",cursor:"pointer",marginTop:3}}>Advance ></button>
                     </div>
                   </div>
                 </div>);
@@ -616,7 +615,7 @@ function PipelineTab({deals}){
     </div>
   );
 }
-// ── CALCULATOR TAB ────────────────────────────────────────────────────────────
+// -- CALCULATOR TAB -
 function CalcTab(){
   const [cArv,setCArv]=useState(185000);
   const [cPrice,setCPrice]=useState(0);
@@ -644,7 +643,7 @@ function CalcTab(){
       <div style={{background:`linear-gradient(135deg,${T.bg1},${T.bg2})`,border:`1px solid ${T.gold}40`,borderRadius:10,padding:"16px 18px",textAlign:"center",boxShadow:`0 0 30px ${T.gold}15`}}>
         <div style={{...TX.label,color:T.mid,marginBottom:4}}>Maximum Allowable Offer</div>
         <div style={{fontSize:44,fontWeight:900,color:T.gold,fontFamily:"monospace",textShadow:`0 0 25px ${T.gold}90`}}>{fmt(mao)}</div>
-        <div style={{...TX.body,marginTop:6,color:T.mid}}>{fmt(cArv)} × {cDisc}% − {fmt(cRep)} repairs 
+        <div style={{...TX.body,marginTop:6,color:T.mid}}>{fmt(cArv)} x {cDisc}% - {fmt(cRep)} repairs - {fmt(cFee)} fee</div>
       </div>
       <Panel>
         <SecHead>Enter Asking Price - Get Verdict</SecHead>
@@ -660,7 +659,7 @@ function CalcTab(){
     </div>
   );
 }
-// ── BUYERS TAB ────────────────────────────────────────────────────────────────
+// -- BUYERS TAB -
 function BuyersTab({buyers,push}){
   const [showForm,setShowForm]=useState(false);
   const emptyB={name:"",phone:"",email:"",area:"Tucson Metro",repairTol:"Light",responseSpeed:"Fast",notes:"",pof:false};
@@ -683,13 +682,13 @@ function BuyersTab({buyers,push}){
             <div style={{flex:1}}>
               <div style={{...TX.h2,marginBottom:5}}>{b.name}</div>
               <div style={{display:"flex",gap:4,flexWrap:"wrap",marginBottom:5}}>
-                <Tag color={b.pof?T.greenL:T.orange}>{b.pof?"✓ POF Verified":"POF Needed"}</Tag>
+                <Tag color={b.pof?T.greenL:T.orange}>{b.pof?"v POF Verified":"POF Needed"}</Tag>
                 <Tag color={T.blue}>{b.area}</Tag><Tag color={T.purple}>{b.repairTol} Rehab</Tag><Tag color={T.teal}>{b.responseSpeed} Response</Tag>
               </div>
               <div style={{display:"flex",gap:10}}><span style={{...TX.body,fontSize:10}}>{b.phone}</span><span style={{...TX.body,fontSize:10}}>{b.email}</span></div>
               {b.notes&&<div style={{...TX.body,marginTop:4,fontStyle:"italic",fontSize:10,color:T.mid}}>{b.notes}</div>}
             </div>
-            <button onClick={()=>deleteBuyer(b.id)} style={{background:"none",border:"none",color:T.mid,cursor:"pointer",fontSize:16,padding:0,marginLeft:8}}>
+            <button onClick={()=>deleteBuyer(b.id)} style={{background:"none",border:"none",color:T.mid,cursor:"pointer",fontSize:16,padding:0,marginLeft:8}}>x</button>
           </div>
         </Panel>
       ))}
@@ -718,7 +717,7 @@ function BuyersTab({buyers,push}){
     </div>
   );
 }
-// ── SCRIPTS TAB ───────────────────────────────────────────────────────────────
+// -- SCRIPTS TAB -
 function ScriptsTab(){
   const [filter,setFilter]=useState("ALL");
   const [copiedIdx,setCopiedIdx]=useState(null);
@@ -738,7 +737,7 @@ function ScriptsTab(){
               <div style={{display:"flex",alignItems:"center",gap:7}}><Tag color={s.color}>{s.role}</Tag><span style={{...TX.h3}}>{s.title}</span></div>
               <button onClick={()=>{navigator.clipboard.writeText(s.body);setCopiedIdx(i);setTimeout(()=>setCopiedIdx(null),2000);}}
                 style={{background:copiedIdx===i?`${T.green}20`:`${T.cyan}15`,border:`1px solid ${copiedIdx===i?T.green+"60":T.cyan+"40"}`,borderRadius:5,color:copiedIdx===i?T.greenL:T.cyan,fontSize:8,fontWeight:800,padding:"3px 9px",cursor:"pointer"}}>
-                {copiedIdx===i?"✓ COPIED":"COPY"}
+                {copiedIdx===i?"v COPIED":"COPY"}
               </button>
             </div>
             <div style={{background:T.bg1,border:`1px solid ${T.line}`,borderRadius:7,padding:"10px 12px",fontSize:10,color:T.text,lineHeight:1.8,whiteSpace:"pre-wrap",fontFamily:"monospace"}}>{s.body}</div>
@@ -748,7 +747,7 @@ function ScriptsTab(){
     </div>
   );
 }
-// ── SITES TAB ─────────────────────────────────────────────────────────────────
+// -- SITES TAB -
 function SitesTab(){
   const [search,setSearch]=useState("");
   const [activeCat,setActiveCat]=useState("All");
@@ -762,10 +761,10 @@ function SitesTab(){
         <div style={{...TX.body}}>32 vetted platforms for finding motivated sellers - Updated 2026</div>
       </div>
       <div style={{background:T.bg2,border:`1px solid ${T.cyan}40`,borderRadius:8,display:"flex",alignItems:"center",gap:8,padding:"8px 12px",marginBottom:10}}>
-        <span style={{fontSize:14,color:T.cyan}}>⌕</span>
+        <span style={{fontSize:14,color:T.cyan}}>O</span>
         <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search sites, tips, categories..."
           style={{flex:1,background:"none",border:"none",color:T.white,fontSize:11,outline:"none",fontFamily:"monospace",fontWeight:600}}/>
-        {search&&<button onClick={()=>setSearch("")} style={{background:"none",border:"none",color:T.mid,cursor:"pointer",fontSize:14}}>
+        {search&&<button onClick={()=>setSearch("")} style={{background:"none",border:"none",color:T.mid,cursor:"pointer",fontSize:14}}>x</button>}
       </div>
       <div style={{display:"flex",gap:5,flexWrap:"wrap",marginBottom:12}}>
         {cats.map(c=>(
@@ -781,7 +780,7 @@ function SitesTab(){
             <div style={{background:`${cat.color}20`,border:`1px solid ${cat.color}50`,borderRadius:6,padding:"3px 9px",fontSize:9,fontWeight:900,color:cat.color}}>{cat.icon}</div>
             <div style={{fontSize:11,fontWeight:800,color:cat.color,textTransform:"uppercase",letterSpacing:1}}>{cat.cat}</div>
             <div style={{flex:1,height:1,background:`${cat.color}20`}}/>
-            <div style={{fontSize:9,color:T.mid}}>{cat.sites.length} site{cat.sites.length!==1?"s":""}
+            <div style={{fontSize:9,color:T.mid}}>{cat.sites.length} site{cat.sites.length!==1?"s":""}</div>
           </div>
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:7}}>
             {cat.sites.map((site,i)=>(
@@ -789,7 +788,7 @@ function SitesTab(){
                 <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:5}}>
                   <div style={{...TX.h3,color:cat.color}}>{site.name}</div>
                   <a href={site.url} target="_blank" rel="noreferrer"
-                    style={{background:`${cat.color}20`,border:`1px solid ${cat.color}50`,borderRadius:4,color:cat.color,fontSize:8,fontWeight:800,padding:"2px 7px",textDecoration:"none",flexShrink:0}}>OPEN 
+                    style={{background:`${cat.color}20`,border:`1px solid ${cat.color}50`,borderRadius:4,color:cat.color,fontSize:8,fontWeight:800,padding:"2px 7px",textDecoration:"none",flexShrink:0}}>OPEN </a>
                 </div>
                 <div style={{...TX.body,fontSize:10,marginBottom:7,lineHeight:1.5}}>{site.desc}</div>
                 <div style={{background:`${cat.color}0a`,border:`1px solid ${cat.color}20`,borderRadius:5,padding:"5px 8px"}}>
@@ -804,7 +803,7 @@ function SitesTab(){
     </div>
   );
 }
-// ── PRICING TAB ───────────────────────────────────────────────────────────────
+// -- PRICING TAB -
 function PricingTab(){
   const [zipInput,setZipInput]=useState("");
   const [searchedZip,setSearchedZip]=useState("");
@@ -838,7 +837,7 @@ function PricingTab(){
               onKeyDown={e=>{if(e.key==="Enter")lookupZip();}}
               placeholder="Enter ZIP code (e.g. 85701)"
               style={{flex:1,background:"none",border:"none",color:T.white,fontSize:13,outline:"none",fontFamily:"monospace",fontWeight:700,padding:"10px 0"}}/>
-            {zipInput&&<button onClick={()=>{setZipInput("");setRegion(null);setSearchedZip("");}} style={{background:"none",border:"none",color:T.mid,cursor:"pointer",fontSize:14}}>
+            {zipInput&&<button onClick={()=>{setZipInput("");setRegion(null);setSearchedZip("");}} style={{background:"none",border:"none",color:T.mid,cursor:"pointer",fontSize:14}}>x</button>}
           </div>
           <button onClick={lookupZip} style={{background:`linear-gradient(135deg,${T.gold}30,${T.orange}20)`,border:`1px solid ${T.gold}60`,borderRadius:8,color:T.goldL,fontSize:11,fontWeight:900,padding:"0 18px",cursor:"pointer",whiteSpace:"nowrap"}}>LOOK UP</button>
         </div>
@@ -847,11 +846,11 @@ function PricingTab(){
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:6}}>
               <div>
                 <div style={{fontSize:12,fontWeight:900,color:T.goldL}}> {region.label}</div>
-                <div style={{...TX.dim,marginTop:2}}>ZIP {searchedZip} - Multiplier: <span style={{color:region.mult>1.2?T.orange:region.mult<0.95?T.green:T.gold,fontWeight:900}}>{region.mult.toFixed(2)}
+                <div style={{...TX.dim,marginTop:2}}>ZIP {searchedZip} - Multiplier: <span style={{color:region.mult>1.2?T.orange:region.mult<0.95?T.green:T.gold,fontWeight:900}}>{region.mult.toFixed(2)}x</span></div>
                 <div style={{fontSize:9,color:T.text,marginTop:3,fontStyle:"italic"}}>{region.note}</div>
               </div>
               <div style={{background:region.mult>1.3?`${T.red}20`:region.mult<0.95?`${T.green}20`:`${T.gold}20`,border:`1px solid ${region.mult>1.3?T.red:region.mult<0.95?T.green:T.gold}50`,borderRadius:8,padding:"6px 12px",textAlign:"center"}}>
-                <div style={{fontSize:20,fontWeight:900,color:region.mult>1.3?T.redL:region.mult<0.95?T.greenL:T.goldL,fontFamily:"monospace"}}>{region.mult.toFixed(2)}
+                <div style={{fontSize:20,fontWeight:900,color:region.mult>1.3?T.redL:region.mult<0.95?T.greenL:T.goldL,fontFamily:"monospace"}}>{region.mult.toFixed(2)}x</div>
                 <div style={{fontSize:8,color:T.mid,fontWeight:700,letterSpacing:0.5}}>{region.mult>1.3?"HIGH COST":region.mult<0.95?"BELOW AVG":"AT/NEAR AVG"}</div>
               </div>
             </div>
@@ -897,7 +896,7 @@ function PricingTab(){
                       <div key={j} style={{background:`${c}15`,border:`1px solid ${c}30`,borderRadius:4,padding:"2px 6px",fontSize:9,fontWeight:800,color:c,fontFamily:"monospace"}}>{v}</div>
                     ))}
                   </div>
-                  <div style={{color:isOpen?T.gold:T.mid,fontSize:14,fontWeight:900,transition:"transform 0.2s",transform:isOpen?"rotate(90deg)":"none",marginLeft:4}}>›</div>
+                  <div style={{color:isOpen?T.gold:T.mid,fontSize:14,fontWeight:900,transition:"transform 0.2s",transform:isOpen?"rotate(90deg)":"none",marginLeft:4}}>></div>
                 </div>
                 {isOpen&&(
                   <div style={{borderTop:`1px solid ${T.gold}20`,padding:"12px 14px"}}>
@@ -913,8 +912,8 @@ function PricingTab(){
                       ))}
                     </div>
                     <div style={{background:`${T.cyan}08`,border:`1px solid ${T.cyan}20`,borderRadius:6,padding:"7px 10px"}}>
-                      <div style={{fontSize:8,fontWeight:900,color:T.cyan,letterSpacing:1,marginBottom:3}}>REGIONAL ADJUSTMENT - {region.mult.toFixed(2)}
-                      <div style={{fontSize:9,color:T.text}}>National base: {fmt(work.low)} / {fmt(work.mid)} / {fmt(work.high)} 
+                      <div style={{fontSize:8,fontWeight:900,color:T.cyan,letterSpacing:1,marginBottom:3}}>REGIONAL ADJUSTMENT - {region.mult.toFixed(2)}x applied</div>
+                      <div style={{fontSize:9,color:T.text}}>National base: {fmt(work.low)} / {fmt(work.mid)} / {fmt(work.high)} -> Adjusted for {region.label}</div>
                     </div>
                   </div>
                 )}
@@ -922,15 +921,15 @@ function PricingTab(){
             );
           })}
           <div style={{background:`${T.mid}15`,border:`1px solid ${T.line}`,borderRadius:8,padding:"10px 12px",marginTop:8}}>
-            <div style={{fontSize:9,fontWeight:900,color:T.mid,marginBottom:4}}>⚠ DISCLAIMER - Always get 3 bids (Iron Law #11)</div>
-            <div style={{fontSize:9,color:T.dim,lineHeight:1.6}}>Prices are 2026 estimates. Actual bids vary by scope and contractor availability. Use as a sanity check — never as your only estimate.</div>
+            <div style={{fontSize:9,fontWeight:900,color:T.mid,marginBottom:4}}>! DISCLAIMER - Always get 3 bids (Iron Law #11)</div>
+            <div style={{fontSize:9,color:T.dim,lineHeight:1.6}}>Prices are 2026 estimates. Actual bids vary by scope and contractor availability. Use as a sanity check -- never as your only estimate.</div>
           </div>
         </div>
       )}
     </div>
   );
 }
-// ── SOP TAB ───────────────────────────────────────────────────────────────────
+// -- SOP TAB -
 function SopTab(){
   const [lawOpen,setLawOpen]=useState(null);
   return(
@@ -944,7 +943,7 @@ function SopTab(){
           <div onClick={()=>setLawOpen(lawOpen===i?null:i)} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 13px",cursor:"pointer"}}>
             <div style={{width:28,height:28,borderRadius:6,background:`${law.color}20`,border:`1px solid ${law.color}50`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:900,color:law.color,flexShrink:0}}>{law.n}</div>
             <div style={{flex:1}}><div style={{...TX.h3,fontSize:12,color:T.white}}>{law.law}</div></div>
-            <div style={{color:lawOpen===i?law.color:T.mid,fontSize:14,fontWeight:900,transition:"transform 0.2s",transform:lawOpen===i?"rotate(90deg)":"none"}}>›</div>
+            <div style={{color:lawOpen===i?law.color:T.mid,fontSize:14,fontWeight:900,transition:"transform 0.2s",transform:lawOpen===i?"rotate(90deg)":"none"}}>></div>
           </div>
           {lawOpen===i&&(
             <div style={{padding:"0 13px 13px",borderTop:`1px solid ${law.color}20`}}>
@@ -958,7 +957,7 @@ function SopTab(){
     </div>
   );
 }
-// ── ROOT APP ──────────────────────────────────────────────────────────────────
+// -- ROOT APP -
 export default function App(){
   const [tab,setTab]=useState("command");
   const [deals,setDeals]=useState([]);
@@ -973,7 +972,7 @@ export default function App(){
   const searchRef=useRef(null);
   useEffect(()=>{const t=setInterval(()=>setClock(new Date()),1000);return()=>clearInterval(t);},[]);
   useEffect(()=>{const t=setInterval(()=>setPulse(p=>!p),1800);return()=>clearInterval(t);},[]);
-  // ── Firebase live listeners ───────────────────────────────────────────────
+  // -- Firebase live listeners -
   useEffect(()=>{
     setSyncStatus("connecting");
     const unsubDeals=onSnapshot(collection(db,"deals"),
@@ -1008,7 +1007,7 @@ export default function App(){
     else if(r._type==="site")setTab("sites");
   }
   const syncColor=syncStatus==="live"?T.green:syncStatus==="error"?T.red:T.gold;
-  const syncLabel=syncStatus==="live"?"LIVE":syncStatus==="error"?"ERROR":"SYNC…";
+  const syncLabel=syncStatus==="live"?"LIVE":syncStatus==="error"?"ERROR":"SYNC...";
   const globalCSS=`
     *{box-sizing:border-box;}body{margin:0;background:${T.bg0};}
     input,select{color-scheme:dark;}input::placeholder{color:${T.dim};}
@@ -1038,11 +1037,11 @@ export default function App(){
         {/* GLOBAL SEARCH */}
         <div ref={searchRef} style={{flex:1,position:"relative",maxWidth:420}}>
           <div style={{display:"flex",alignItems:"center",background:T.bg1,border:`1.5px solid ${gFocused?T.cyan:T.line2}`,borderRadius:8,padding:"5px 10px",gap:7,boxShadow:gFocused?`0 0 14px ${T.cyan}30`:"none",transition:"all 0.2s"}}>
-            <span style={{fontSize:12,color:T.cyan}}>⌕</span>
+            <span style={{fontSize:12,color:T.cyan}}>O</span>
             <input value={gSearch} onChange={e=>setGSearch(e.target.value)} onFocus={()=>setGFocused(true)}
               placeholder="Search deals, buyers, sites..."
               style={{flex:1,background:"none",border:"none",color:T.white,fontSize:10,outline:"none",fontFamily:"monospace",fontWeight:600}}/>
-            {gSearch&&<button onClick={()=>{setGSearch("");setGFocused(false);}} style={{background:"none",border:"none",color:T.mid,cursor:"pointer",fontSize:13,lineHeight:1,padding:0}}>
+            {gSearch&&<button onClick={()=>{setGSearch("");setGFocused(false);}} style={{background:"none",border:"none",color:T.mid,cursor:"pointer",fontSize:13,lineHeight:1,padding:0}}>x</button>}
           </div>
           {gFocused&&gq.length>1&&(
             <div style={{position:"absolute",top:"calc(100% + 5px)",left:0,right:0,background:T.bg3,border:`1px solid ${T.cyan}40`,borderRadius:9,zIndex:600,boxShadow:`0 8px 30px #00000090,0 0 20px ${T.cyan}15`,overflow:"hidden"}}>
@@ -1078,7 +1077,7 @@ export default function App(){
       </div>
       {/* QUICK NAV */}
       <div style={{display:"flex",background:T.bg4,borderBottom:`1px solid ${T.line}`,padding:"0 6px",overflowX:"auto",height:30,alignItems:"center",gap:2,flexShrink:0}}>
-        <span style={{fontSize:8,color:T.mid,fontWeight:700,letterSpacing:1.5,textTransform:"uppercase",marginRight:4,whiteSpace:"nowrap"}}>APEX ›</span>
+        <span style={{fontSize:8,color:T.mid,fontWeight:700,letterSpacing:1.5,textTransform:"uppercase",marginRight:4,whiteSpace:"nowrap"}}>APEX ></span>
         {[{id:"command",label:"Command"},{id:"deals",label:"Deals"},{id:"pipeline",label:"Pipeline"},{id:"calc",label:"Calc"},{id:"sites",label:"Sites"},{id:"pricing",label:"Pricing"}].map(t=>(
           <button key={t.id} onClick={()=>setTab(t.id)} style={{background:tab===t.id?`${T.cyan}20`:"none",border:`1px solid ${tab===t.id?T.cyan+"50":"transparent"}`,borderRadius:5,color:tab===t.id?T.cyan:T.mid,fontSize:9,fontWeight:700,letterSpacing:0.5,padding:"3px 9px",cursor:"pointer",textTransform:"uppercase",transition:"all 0.15s",whiteSpace:"nowrap"}}>{t.label}</button>
         ))}
