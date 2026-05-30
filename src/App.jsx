@@ -263,7 +263,6 @@ function CommandTab({deals,kpiVals,setKpiVals}){
   }
     setDoc(doc(db,"kpis","weekly"),{...kpiVals,[id]:next},{merge:true});
   return(
-    <div style={{...TX.body,marginTop:4,color:T.greenL,fontWeight:800}}>LIVE - {deals.length} DEALS - FIREBASE SYNC ACTIVE</div>
     <div style={{display:"flex",flexDirection:"column",gap:9}}>
       <div style={{background:`linear-gradient(135deg,${T.bg1},${T.bg3})`,border:`1px solid ${T.cyan}30`,borderRadius:10,padding:"14px 16px",position:"relative",overflow:"hidden"}}>
         <div style={{position:"absolute",inset:0,background:`radial-gradient(ellipse at 80% 50%,${T.cyan}08 0%,transparent 60%)`,pointerEvents:"none"}}/>
